@@ -15,11 +15,11 @@ class Venda extends Model
      * @var array
      */
     protected $fillable = [
-        'nome-do-produto',
-        'preço-do-produto',
+        'nomeProduto',
+        'precoProduto',
         'quantidade',
-        'tamanho-letra',
-        'tamanho-numero',
+        'tamanhoLetra',
+        'tamanhoNumero',
         'cor',
         'tipo'
     ];
@@ -31,7 +31,7 @@ class Venda extends Model
      */
     protected $casts = [
         'quantidade' => 'int',
-        'preço do produto' => 'float',
-        'tamanho-numero' => 'int'
+        'precoProduto' => 'float',
+        'tamanhoNumero' => 'int'
     ];
 }

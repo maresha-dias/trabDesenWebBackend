@@ -5,6 +5,9 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Venda;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Resources;
+use App\Http\Resources\VendaResource;
+use Illuminate\Support\Facades\Validator;
 
 class VendaController extends Controller
 {
@@ -15,7 +18,8 @@ class VendaController extends Controller
      */
     public function index()
     {
-        //
+        $vendas = Venda::all();
+        return response([ 'data' => VendaResource::collection($vendas), 'message' => 'Retrieved successfully'], 200);
     }
 
     /**
@@ -26,7 +30,18 @@ class VendaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+
+        $validator = Validator::make($data, [
+            'nomeProduto' => 'required|max:255'
+        ]);
+
+        if ($validator->fails()) {
+            return response(['error' => $validator->errors(), 'message' => 'Validation Error']);
+        }
+
+        $venda = Venda::create($data);
+        return response(['data' => new VendaResource($venda), 'message' => 'Created successfully'], 201);
     }
 
     /**
@@ -37,7 +52,7 @@ class VendaController extends Controller
      */
     public function show(Venda $venda)
     {
-        //
+        return response(['data' => new VendaResource($venda), 'message' => 'Retrieved successfully'], 200);
     }
 
     /**
@@ -49,7 +64,9 @@ class VendaController extends Controller
      */
     public function update(Request $request, Venda $venda)
     {
-        //
+        $venda->update($request->all());
+
+        return response(['data' => new VendaResource($venda), 'message' => 'Update successfully'], 200);
     }
 
     /**
@@ -60,6 +77,8 @@ class VendaController extends Controller
      */
     public function destroy(Venda $venda)
     {
-        //
+        $venda->delete();
+
+        return response(['message' => 'Deleted']);
     }
 }

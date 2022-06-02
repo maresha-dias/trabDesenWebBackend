@@ -13,8 +13,16 @@ class CreateVendasTable extends Migration
      */
     public function up()
     {
-        Schema::table('vendas', function (Blueprint $table) {
-            //
+        Schema::create('vendas', function (Blueprint $table) {
+            $table->id();
+            $table->timestamps();
+            $table->string('nomeProduto');
+            $table->float('precoProduto');
+            $table->integer('quantidade')->nullable();
+            $table->string('tamanhoLetra')->nullable();
+            $table->integer('tamanhoNumero')->nullable();
+            $table->string('cor')->nullable();
+            $table->string('tipo')->nullable();
         });
     }
 
@@ -25,8 +33,6 @@ class CreateVendasTable extends Migration
      */
     public function down()
     {
-        Schema::table('vendas', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('vendas');
     }
 }
